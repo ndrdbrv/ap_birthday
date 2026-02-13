@@ -1,0 +1,859 @@
+/* ===== RESET & BASE ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-deep:    #06090f;
+  --bg-dark:    #0a0f1a;
+  --bg-card:    #0d1322;
+  --bg-surface: #111827;
+  --accent:     #8ba4c4;
+  --accent-bright: #a7c4e6;
+  --gold:       #c9a96e;
+  --gold-light: #ddc48e;
+  --text:       #c8d0dc;
+  --text-muted: #6b7a90;
+  --text-light: #e8ecf2;
+  --border:     rgba(139, 164, 196, 0.08);
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Outfit', -apple-system, sans-serif;
+  color: var(--text);
+  background: var(--bg-deep);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  padding-top: 10vh;
+  padding-bottom: 8vh;
+}
+
+.hero-img-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+}
+
+.hero-slide.active {
+  opacity: 1;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg,
+      rgba(6, 9, 15, 0.45) 0%,
+      rgba(6, 9, 15, 0.5) 25%,
+      rgba(6, 9, 15, 0.6) 45%,
+      rgba(6, 9, 15, 0.7) 65%,
+      rgba(6, 9, 15, 0.85) 85%,
+      rgba(6, 9, 15, 1) 100%
+    );
+}
+
+/* Hero content */
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 0 2rem;
+  max-width: 800px;
+}
+
+.hero-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.badge-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.badge-line {
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.4;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.5rem, 9vw, 7.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.3rem;
+}
+
+.accent-dot {
+  color: var(--gold);
+}
+
+.hero-subtitle {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--gold-light);
+  margin-bottom: 2rem;
+  font-weight: 400;
+}
+
+.hero-divider {
+  width: 1px;
+  height: 40px;
+  margin-top: 1.5rem;
+  background: linear-gradient(180deg, var(--gold), transparent);
+  z-index: 10;
+}
+
+.hero-message {
+  display: none;
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  margin-top: auto;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--gold);
+  opacity: 0.5;
+  transition: opacity 0.3s;
+  z-index: 10;
+}
+
+.scroll-indicator:hover {
+  opacity: 1;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(180deg, transparent, var(--gold));
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.7); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+.scroll-text {
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+/* ===== FADE-IN ANIMATIONS ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(25px);
+  animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.fade-in:nth-child(1) { animation-delay: 0.4s; }
+.fade-in:nth-child(2) { animation-delay: 0.7s; }
+.fade-in:nth-child(3) { animation-delay: 1.0s; }
+.fade-in:nth-child(4) { animation-delay: 1.3s; }
+.fade-in:nth-child(5) { animation-delay: 1.6s; }
+.fade-in:nth-child(6) { animation-delay: 1.9s; }
+
+@keyframes fadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== SECTION LABEL & TITLE ===== */
+.section-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.7rem;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.label-line {
+  width: 30px;
+  height: 1px;
+  background: var(--text-muted);
+  opacity: 0.3;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 4rem;
+  color: var(--text-light);
+  letter-spacing: -0.01em;
+}
+
+/* ===== LETTER SECTION ===== */
+.letter-section {
+  background: var(--bg-deep);
+  padding: 8rem 0;
+  position: relative;
+}
+
+.letter-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 4rem 4rem 3.5rem;
+  max-width: 680px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.letter-accent {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 2px;
+  background: var(--gold);
+}
+
+.letter-heading {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.8rem;
+  color: var(--gold);
+  margin-bottom: 2.5rem;
+  text-align: center;
+  font-weight: 400;
+}
+
+.letter-body p {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 2;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.letter-signature {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.6rem;
+  color: var(--gold);
+  text-align: right;
+  margin-top: 2.5rem;
+  font-weight: 400;
+}
+
+/* ===== SECTION BACKGROUND IMAGE ===== */
+.section-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.section-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.section-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    var(--bg-dark) 0%,
+    rgba(10, 15, 26, 0.65) 15%,
+    rgba(10, 15, 26, 0.55) 50%,
+    rgba(10, 15, 26, 0.65) 85%,
+    var(--bg-dark) 100%
+  );
+}
+
+/* ===== QUALITIES SECTION ===== */
+.qualities-section {
+  background: var(--bg-dark);
+  padding: 7rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.qualities-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+.qualities-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.quality-card {
+  background: rgba(13, 19, 34, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(139, 164, 196, 0.1);
+  border-radius: 2px;
+  padding: 2.5rem 2rem;
+  position: relative;
+  transition: border-color 0.4s ease, transform 0.4s ease;
+}
+
+.quality-card:hover {
+  border-color: rgba(201, 169, 110, 0.2);
+  transform: translateY(-4px);
+}
+
+.quality-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  font-weight: 300;
+  color: rgba(201, 169, 110, 0.12);
+  line-height: 1;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.quality-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--text-light);
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.02em;
+}
+
+.quality-card p {
+  font-size: 0.9rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--text-muted);
+}
+
+/* ===== TIMELINE INTRO ===== */
+.tl-intro {
+  background: var(--bg-deep);
+  padding: 6rem 0 3rem;
+}
+
+/* ===== FULL-PAGE YEAR SECTIONS ===== */
+.year-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.year-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 0;
+}
+
+.year-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg,
+      var(--bg-deep) 0%,
+      rgba(6, 9, 15, 0.3) 15%,
+      rgba(6, 9, 15, 0.15) 50%,
+      rgba(6, 9, 15, 0.3) 85%,
+      var(--bg-deep) 100%
+    );
+}
+
+.year-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.year-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(5rem, 15vw, 12rem);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.05em;
+  text-shadow: 0 4px 40px rgba(0, 0, 0, 0.5);
+  display: block;
+}
+
+/* Current year glow */
+.year-page-current .year-number {
+  color: var(--gold-light);
+  text-shadow: 0 0 60px rgba(201, 169, 110, 0.3), 0 4px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Per-year image positioning */
+.year-page[data-year="2020"] .year-bg {
+  object-position: center 70%;
+}
+
+.year-page[data-year="2024"] .year-bg {
+  object-position: 35% center;
+}
+
+.year-page[data-year="2025"] .year-bg {
+  object-position: 40% center;
+}
+
+/* ===== WISHES SECTION ===== */
+.wishes-section {
+  background: var(--bg-deep);
+  padding: 7rem 0;
+}
+
+.wishes-list {
+  max-width: 620px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.wish-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 2.2rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.wish-item:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.wish-line {
+  width: 20px;
+  height: 1px;
+  background: var(--gold);
+  margin-top: 0.85rem;
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.wish-item p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* ===== BIRTHDAY CARD SECTION ===== */
+.card-section {
+  background: var(--bg-deep);
+  padding: 8rem 0;
+  text-align: center;
+}
+
+.birthday-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.birthday-card {
+  width: 340px;
+  height: 460px;
+  cursor: pointer;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+}
+
+.birthday-card:hover {
+  transform: scale(1.03);
+}
+
+.birthday-card.exploded {
+  transform: scale(0.8);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.card-front {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, #111827 0%, #0d1322 50%, #111827 100%);
+  border: 1px solid rgba(201, 169, 110, 0.25);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(201, 169, 110, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.birthday-card:hover .card-front {
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(201, 169, 110, 0.08),
+    inset 0 1px 0 rgba(201, 169, 110, 0.15);
+}
+
+.card-front-decoration {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.card-star {
+  font-size: 2.5rem;
+  color: var(--gold);
+  opacity: 0.7;
+  margin-bottom: 0.5rem;
+}
+
+.card-front-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: var(--text-light);
+  letter-spacing: 0.02em;
+}
+
+.card-front-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.5rem;
+  font-weight: 400;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.card-front-line {
+  width: 50px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.3;
+  margin: 0.8rem 0;
+}
+
+.card-front-hint {
+  font-size: 0.7rem;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  animation: pulse-hint 2s ease-in-out infinite;
+}
+
+@keyframes pulse-hint {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Card reveal (family photo) */
+.card-reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 500px;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  transition: opacity 0.8s ease 0.3s, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -250px;
+}
+
+.card-reveal.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  position: relative;
+  left: auto;
+  margin-left: 0;
+}
+
+.card-family-photo {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(201, 169, 110, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.card-back-message {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--gold-light);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 480px) {
+  .birthday-card {
+    width: 280px;
+    height: 380px;
+  }
+  .card-reveal {
+    max-width: 320px;
+  }
+}
+
+/* ===== FINAL SECTION ===== */
+.final-section {
+  background: var(--bg-dark);
+  padding: 10rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.final-section .section-bg-img {
+  object-position: center 25%;
+}
+
+.final-section .section-bg-overlay {
+  background: linear-gradient(
+    180deg,
+    var(--bg-deep) 0%,
+    rgba(6, 9, 15, 0.78) 20%,
+    rgba(6, 9, 15, 0.75) 50%,
+    rgba(6, 9, 15, 0.8) 80%,
+    var(--bg-deep) 100%
+  );
+}
+
+.final-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(201, 169, 110, 0.04), transparent 70%);
+  pointer-events: none;
+}
+
+.final-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+.final-content {
+  position: relative;
+  z-index: 2;
+}
+
+.final-pretext {
+  font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
+}
+
+.final-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 300;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.5);
+}
+
+.final-year {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--gold);
+  opacity: 0.4;
+  margin-bottom: 3rem;
+  letter-spacing: 0.1em;
+}
+
+.confetti-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2.8rem;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.confetti-btn:hover {
+  background: var(--gold);
+  color: var(--bg-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(201, 169, 110, 0.15);
+}
+
+.confetti-btn:active {
+  transform: translateY(0);
+}
+
+.confetti-btn svg {
+  transition: transform 0.3s;
+}
+
+.confetti-btn:hover svg {
+  transform: rotate(15deg) scale(1.1);
+}
+
+/* ===== CONFETTI CANVAS ===== */
+#confettiCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .letter-card {
+    padding: 3rem 2rem 2.5rem;
+  }
+
+  .qualities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-bottom: 4vh;
+  }
+
+  .hero-title {
+    font-size: clamp(2.8rem, 10vw, 5rem);
+  }
+
+  .year-number {
+    font-size: clamp(4rem, 12vw, 8rem);
+  }
+
+  .year-page[data-year="2020"] .year-bg {
+    object-position: center 65%;
+  }
+
+  .year-page[data-year="2024"] .year-bg {
+    object-position: 30% center;
+  }
+
+  .year-page[data-year="2025"] .year-bg {
+    object-position: 35% center;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 15px;
+  }
+
+  .letter-card {
+    padding: 2.5rem 1.5rem 2rem;
+  }
+
+  .hero-message br {
+    display: none;
+  }
+
+  .wish-item {
+    gap: 1.2rem;
+  }
+
+  .year-page[data-year="2025"] .year-bg {
+    object-position: 30% center;
+  }
+}
