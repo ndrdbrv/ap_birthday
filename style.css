@@ -358,9 +358,10 @@ a {
 /* ===== QUALITIES SECTION ===== */
 .qualities-section {
   background: var(--bg-deep);
-  padding: 7rem 0;
+  padding: 7rem 0 5rem;
   position: relative;
   overflow: hidden;
+  margin-bottom: -1px;
 }
 
 .qualities-section .container {
@@ -419,7 +420,8 @@ a {
 /* ===== TIMELINE INTRO ===== */
 .tl-intro {
   background: var(--bg-deep);
-  padding: 6rem 0 3rem;
+  padding: 5rem 0 2rem;
+  margin-top: -1px;
 }
 
 /* ===== FULL-PAGE YEAR SECTIONS ===== */
@@ -539,6 +541,7 @@ a {
   background: var(--bg-deep);
   padding: 8rem 0;
   text-align: center;
+  margin-top: -1px;
 }
 
 .birthday-card-wrapper {
