@@ -419,16 +419,22 @@ a {
 /* ===== TIMELINE INTRO (inside first year-page) ===== */
 .year-intro-header {
   position: absolute;
-  top: 8%;
+  top: 6%;
   left: 0;
   right: 0;
   z-index: 3;
   text-align: center;
+  padding: 2rem 1rem;
+  background: radial-gradient(ellipse at center, rgba(6, 9, 15, 0.7) 0%, rgba(6, 9, 15, 0.3) 50%, transparent 80%);
 }
 
 .year-intro-header .section-label,
 .year-intro-header .section-title {
-  text-shadow: 0 2px 40px rgba(0, 0, 0, 0.8), 0 0 80px rgba(6, 9, 15, 0.6);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 1), 0 0 60px rgba(6, 9, 15, 0.9), 0 0 120px rgba(6, 9, 15, 0.5);
+}
+
+.year-intro-header .section-title {
+  font-size: clamp(2.5rem, 7vw, 4rem);
 }
 
 .year-page-first {
