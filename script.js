@@ -43,8 +43,8 @@ setInterval(() => {
   // After fade-in completes, hide the old slide instantly
   setTimeout(() => {
     heroSlides[prevSlide].classList.remove('prev');
-  }, 700);
-}, 2500);
+  }, 900);
+}, 2200);
 
 // ===== PARALLAX ON HERO IMAGE =====
 const heroImg = document.querySelector('.hero-img-wrap');
