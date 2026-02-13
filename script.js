@@ -190,16 +190,16 @@ class ScrollConfettiPiece {
   constructor() {
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
-    this.size = Math.random() * 5 + 2;
+    this.size = Math.random() * 3.5 + 1.5;
     this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
     this.speedY = -(Math.random() * 1.2 + 0.3);
     this.speedX = Math.random() * 1 - 0.5;
     this.rotation = Math.random() * 360;
     this.rotationSpeed = Math.random() * 3 - 1.5;
-    this.opacity = Math.random() * 0.35 + 0.5;
+    this.opacity = Math.random() * 0.25 + 0.25;
     this.maxOpacity = this.opacity;
     this.life = 1;
-    this.decay = Math.random() * 0.004 + 0.002;
+    this.decay = Math.random() * 0.006 + 0.003;
     this.shape = Math.random() > 0.5 ? 'rect' : 'circle';
     this.wobble = Math.random() * 10;
     this.wobbleSpeed = Math.random() * 0.06 + 0.02;
@@ -265,7 +265,7 @@ window.addEventListener('scroll', () => {
 
   if (inTimeline && scrollDelta > 2) {
     // Spawn a few faint particles based on scroll speed
-    const count = Math.min(Math.floor(scrollDelta / 5), 6);
+    const count = Math.min(Math.floor(scrollDelta / 10), 3);
     for (let i = 0; i < count; i++) {
       scrollConfettiPieces.push(new ScrollConfettiPiece());
     }
