@@ -77,11 +77,18 @@ a {
   object-fit: cover;
   object-position: center center;
   opacity: 0;
-  transition: opacity 1.2s ease-in-out;
+  transition: opacity 1.5s ease-in-out;
+  z-index: 0;
 }
 
 .hero-slide.active {
   opacity: 1;
+  z-index: 1;
+}
+
+.hero-slide.prev {
+  opacity: 1;
+  z-index: 0;
 }
 
 .hero-overlay {
@@ -541,15 +548,11 @@ a {
 
 /* --- Envelope + Card --- */
 .envelope-wrapper {
-  width: 340px;
+  width: 360px;
+  height: 260px;
   cursor: pointer;
   position: relative;
-  padding-top: 60px;
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
-}
-
-.envelope-wrapper:hover {
-  transform: scale(1.03);
 }
 
 .envelope-wrapper.exploded {
@@ -558,84 +561,99 @@ a {
   pointer-events: none;
 }
 
-/* Open envelope sitting behind the card */
-.envelope-bg {
+/* The card — starts mostly inside envelope, slides up on hover */
+.envelope-card {
   position: absolute;
-  bottom: -12px;
-  left: -12px;
-  right: -12px;
-  height: 200px;
-  background: linear-gradient(170deg, #161e30 0%, #121a2a 100%);
-  border: 1px solid rgba(201, 169, 110, 0.1);
-  border-radius: 3px 3px 8px 8px;
-  z-index: 0;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  left: 20px;
+  right: 20px;
+  height: 360px;
+  bottom: 60px;
+  background: linear-gradient(145deg, #111827 0%, #0d1322 50%, #111827 100%);
+  border: 1px solid rgba(201, 169, 110, 0.25);
+  border-radius: 8px 8px 4px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+  transform: translateY(0);
 }
 
-/* Subtle inner V lines on envelope */
-.envelope-bg::after {
+.envelope-wrapper:hover .envelope-card {
+  transform: translateY(-200px);
+  box-shadow:
+    0 -8px 40px rgba(0, 0, 0, 0.5),
+    0 0 50px rgba(201, 169, 110, 0.05);
+}
+
+/* Envelope body — the main visible element */
+.envelope-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  z-index: 2;
+}
+
+/* Envelope pocket (front face) */
+.envelope-pocket {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(170deg, #151d2e 0%, #111827 50%, #0e1525 100%);
+  border: 1px solid rgba(201, 169, 110, 0.2);
+  border-radius: 0 0 6px 6px;
+  border-top: none;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(201, 169, 110, 0.06);
+}
+
+/* Diagonal fold lines on envelope front */
+.envelope-pocket::after {
   content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top right, transparent 49.3%, rgba(201, 169, 110, 0.05) 49.3%, rgba(201, 169, 110, 0.05) 50.7%, transparent 50.7%),
+    linear-gradient(to top left, transparent 49.3%, rgba(201, 169, 110, 0.05) 49.3%, rgba(201, 169, 110, 0.05) 50.7%, transparent 50.7%);
+  pointer-events: none;
+}
+
+/* Triangular flap on top of envelope */
+.envelope-flap {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 100%;
-  background:
-    linear-gradient(to bottom right, transparent 49.5%, rgba(201, 169, 110, 0.03) 49.5%, rgba(201, 169, 110, 0.03) 50.5%, transparent 50.5%),
-    linear-gradient(to bottom left, transparent 49.5%, rgba(201, 169, 110, 0.03) 49.5%, rgba(201, 169, 110, 0.03) 50.5%, transparent 50.5%);
-  pointer-events: none;
-}
-
-/* Open flap behind the card at top */
-.envelope-flap-bg {
-  position: absolute;
-  top: -42px;
-  left: -1px;
-  right: -1px;
   height: 0;
-  border-left: 182px solid transparent;
-  border-right: 182px solid transparent;
-  border-bottom: 44px solid #1a2236;
-  z-index: 0;
+  border-left: 180px solid transparent;
+  border-right: 180px solid transparent;
+  border-top: 120px solid #161e30;
+  z-index: 3;
+  transform-origin: top center;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.envelope-flap-bg::before {
+.envelope-flap::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: -183px;
-  right: -183px;
+  top: -121px;
+  left: -181px;
+  right: -181px;
   height: 0;
-  border-left: 183px solid transparent;
-  border-right: 183px solid transparent;
-  border-bottom: 45px solid rgba(201, 169, 110, 0.08);
+  border-left: 181px solid transparent;
+  border-right: 181px solid transparent;
+  border-top: 121px solid rgba(201, 169, 110, 0.15);
   pointer-events: none;
 }
 
-/* The card */
-.card-front {
-  position: relative;
-  width: 100%;
-  height: 460px;
-  background: linear-gradient(145deg, #111827 0%, #0d1322 50%, #111827 100%);
-  border: 1px solid rgba(201, 169, 110, 0.25);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(201, 169, 110, 0.1);
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
-}
-
-.envelope-wrapper:hover .card-front {
-  transform: translateY(-14px);
-  box-shadow:
-    0 34px 80px rgba(0, 0, 0, 0.5),
-    0 0 50px rgba(201, 169, 110, 0.06),
-    inset 0 1px 0 rgba(201, 169, 110, 0.15);
+.envelope-wrapper:hover .envelope-flap {
+  transform: rotateX(160deg);
 }
 
 .card-front-decoration {
@@ -735,23 +753,35 @@ a {
 
 @media (max-width: 480px) {
   .envelope-wrapper {
-    width: 280px;
+    width: 300px;
+    height: 220px;
   }
-  .card-front {
-    height: 380px;
+  .envelope-card {
+    left: 16px;
+    right: 16px;
+    height: 300px;
   }
-  .envelope-flap-bg {
-    border-left-width: 156px;
-    border-right-width: 156px;
-    border-bottom-width: 50px;
-    top: -48px;
+  .envelope-wrapper:hover .envelope-card {
+    transform: translateY(-130px);
   }
-  .envelope-flap-bg::before {
-    left: -157px;
-    right: -157px;
-    border-left-width: 157px;
-    border-right-width: 157px;
-    border-bottom-width: 51px;
+  .envelope-body {
+    height: 170px;
+  }
+  .envelope-pocket {
+    height: 170px;
+  }
+  .envelope-flap {
+    border-left-width: 150px;
+    border-right-width: 150px;
+    border-top-width: 100px;
+  }
+  .envelope-flap::before {
+    left: -151px;
+    right: -151px;
+    border-left-width: 151px;
+    border-right-width: 151px;
+    border-top-width: 101px;
+    top: -101px;
   }
   .card-reveal {
     max-width: 320px;

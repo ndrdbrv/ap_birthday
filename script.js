@@ -30,10 +30,19 @@ const heroSlides = document.querySelectorAll('.hero-slide');
 let currentSlide = 0;
 
 setInterval(() => {
-  heroSlides[currentSlide].classList.remove('active');
+  const prevSlide = currentSlide;
   currentSlide = (currentSlide + 1) % heroSlides.length;
+
+  // Keep old slide visible as 'prev' while new one fades in on top
+  heroSlides[prevSlide].classList.remove('active');
+  heroSlides[prevSlide].classList.add('prev');
   heroSlides[currentSlide].classList.add('active');
-}, 2000);
+
+  // After transition completes, remove prev class
+  setTimeout(() => {
+    heroSlides[prevSlide].classList.remove('prev');
+  }, 1600);
+}, 4000);
 
 // ===== PARALLAX ON HERO IMAGE =====
 const heroImg = document.querySelector('.hero-img-wrap');
