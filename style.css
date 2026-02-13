@@ -417,11 +417,18 @@ a {
   color: var(--text-muted);
 }
 
-/* ===== TIMELINE INTRO ===== */
-.tl-intro {
-  background: var(--bg-deep);
-  padding: 5rem 0 2rem;
-  margin-top: -1px;
+/* ===== TIMELINE INTRO (inside first year-page) ===== */
+.year-intro-header {
+  position: absolute;
+  top: 12%;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  text-align: center;
+}
+
+.year-page-first {
+  padding-top: 6rem;
 }
 
 /* ===== FULL-PAGE YEAR SECTIONS ===== */
@@ -450,10 +457,39 @@ a {
   z-index: 1;
   background:
     linear-gradient(180deg,
+      rgba(6, 9, 15, 0.95) 0%,
+      rgba(6, 9, 15, 0.5) 8%,
+      rgba(6, 9, 15, 0.15) 25%,
+      rgba(6, 9, 15, 0.1) 50%,
+      rgba(6, 9, 15, 0.15) 75%,
+      rgba(6, 9, 15, 0.5) 92%,
+      rgba(6, 9, 15, 0.95) 100%
+    );
+}
+
+/* First year-page: stronger top fade from qualities section */
+.year-page-first .year-overlay {
+  background:
+    linear-gradient(180deg,
       var(--bg-deep) 0%,
-      rgba(6, 9, 15, 0.35) 12%,
-      rgba(6, 9, 15, 0.15) 50%,
-      rgba(6, 9, 15, 0.35) 88%,
+      rgba(6, 9, 15, 0.6) 10%,
+      rgba(6, 9, 15, 0.15) 25%,
+      rgba(6, 9, 15, 0.1) 50%,
+      rgba(6, 9, 15, 0.15) 75%,
+      rgba(6, 9, 15, 0.5) 92%,
+      rgba(6, 9, 15, 0.95) 100%
+    );
+}
+
+/* Last year-page: stronger bottom fade into card section */
+.year-page-current .year-overlay {
+  background:
+    linear-gradient(180deg,
+      rgba(6, 9, 15, 0.95) 0%,
+      rgba(6, 9, 15, 0.5) 8%,
+      rgba(6, 9, 15, 0.15) 25%,
+      rgba(6, 9, 15, 0.1) 50%,
+      rgba(6, 9, 15, 0.3) 80%,
       var(--bg-deep) 100%
     );
 }
