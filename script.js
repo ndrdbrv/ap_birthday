@@ -33,16 +33,18 @@ setInterval(() => {
   const prevSlide = currentSlide;
   currentSlide = (currentSlide + 1) % heroSlides.length;
 
-  // Keep old slide visible as 'prev' while new one fades in on top
+  // Move old slide to 'prev' (stays visible behind, no transition)
   heroSlides[prevSlide].classList.remove('active');
   heroSlides[prevSlide].classList.add('prev');
+
+  // New slide fades in on top (opacity 0 → 1 over 2s)
   heroSlides[currentSlide].classList.add('active');
 
-  // After transition completes, remove prev class
+  // After fade-in completes, hide the old slide instantly
   setTimeout(() => {
     heroSlides[prevSlide].classList.remove('prev');
-  }, 1600);
-}, 4000);
+  }, 2100);
+}, 5000);
 
 // ===== PARALLAX ON HERO IMAGE =====
 const heroImg = document.querySelector('.hero-img-wrap');
