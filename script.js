@@ -196,7 +196,7 @@ class ScrollConfettiPiece {
     this.speedX = Math.random() * 1 - 0.5;
     this.rotation = Math.random() * 360;
     this.rotationSpeed = Math.random() * 3 - 1.5;
-    this.opacity = Math.random() * 0.25 + 0.25;
+    this.opacity = Math.random() * 0.25 + 0.5;
     this.maxOpacity = this.opacity;
     this.life = 1;
     this.decay = Math.random() * 0.006 + 0.003;
