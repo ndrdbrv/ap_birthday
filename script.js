@@ -181,6 +181,110 @@ birthdayCard.addEventListener('click', () => {
   }, 500);
 });
 
+// ===== SCROLL CONFETTI ON TIMELINE =====
+let scrollConfettiPieces = [];
+let scrollConfettiActive = false;
+const yearPages = document.querySelectorAll('.year-page');
+
+class ScrollConfettiPiece {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 4 + 1.5;
+    this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+    this.speedY = -(Math.random() * 1.2 + 0.3);
+    this.speedX = Math.random() * 1 - 0.5;
+    this.rotation = Math.random() * 360;
+    this.rotationSpeed = Math.random() * 3 - 1.5;
+    this.opacity = Math.random() * 0.35 + 0.2;
+    this.maxOpacity = this.opacity;
+    this.life = 1;
+    this.decay = Math.random() * 0.006 + 0.003;
+    this.shape = Math.random() > 0.5 ? 'rect' : 'circle';
+    this.wobble = Math.random() * 10;
+    this.wobbleSpeed = Math.random() * 0.06 + 0.02;
+  }
+
+  update() {
+    this.y += this.speedY;
+    this.x += this.speedX + Math.sin(this.wobble) * 0.3;
+    this.wobble += this.wobbleSpeed;
+    this.rotation += this.rotationSpeed;
+    this.life -= this.decay;
+    this.opacity = this.maxOpacity * this.life;
+  }
+
+  draw() {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate((this.rotation * Math.PI) / 180);
+    ctx.globalAlpha = Math.max(0, this.opacity);
+    ctx.fillStyle = this.color;
+    if (this.shape === 'rect') {
+      ctx.fillRect(-this.size / 2, -this.size / 4, this.size, this.size / 2);
+    } else {
+      ctx.beginPath();
+      ctx.arc(0, 0, this.size / 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+
+function animateScrollConfetti() {
+  if (!scrollConfettiActive && scrollConfettiPieces.length === 0) return;
+
+  // Don't clear if main confetti is running
+  if (confettiPieces.length === 0) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  scrollConfettiPieces = scrollConfettiPieces.filter(p => p.life > 0);
+  scrollConfettiPieces.forEach(p => { p.update(); p.draw(); });
+
+  if (scrollConfettiPieces.length > 0 || scrollConfettiActive) {
+    requestAnimationFrame(animateScrollConfetti);
+  }
+}
+
+let lastScrollY = window.scrollY;
+let scrollConfettiRunning = false;
+
+window.addEventListener('scroll', () => {
+  // Check if any year-page is in view
+  let inTimeline = false;
+  yearPages.forEach(yp => {
+    const rect = yp.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      inTimeline = true;
+    }
+  });
+
+  const scrollDelta = Math.abs(window.scrollY - lastScrollY);
+  lastScrollY = window.scrollY;
+
+  if (inTimeline && scrollDelta > 2) {
+    // Spawn a few faint particles based on scroll speed
+    const count = Math.min(Math.floor(scrollDelta / 8), 4);
+    for (let i = 0; i < count; i++) {
+      scrollConfettiPieces.push(new ScrollConfettiPiece());
+    }
+    scrollConfettiActive = true;
+
+    if (!scrollConfettiRunning) {
+      scrollConfettiRunning = true;
+      animateScrollConfetti();
+    }
+  } else {
+    scrollConfettiActive = false;
+  }
+
+  // Stop animation loop when done
+  if (scrollConfettiPieces.length === 0) {
+    scrollConfettiRunning = false;
+  }
+}, { passive: true });
+
 // ===== SMOOTH SCROLL =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
